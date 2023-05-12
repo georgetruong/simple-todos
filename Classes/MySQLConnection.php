@@ -33,4 +33,8 @@ class MySQLConnection {
     public function close() {
         $this->conn->close();
     }
+
+    public function lastInsertId() {
+        return $this->conn->insert_id;
+    }
 }

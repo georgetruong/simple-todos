@@ -14,16 +14,27 @@ class Todo {
         $this->db->close();
     }
 
-    public function create($description, $priority) {
+    public function fetch($id) {
+        $sql = "SELECT id, description FROM todo WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->bind_result($id, $description);
+        $stmt->fetch();
+
+        return Array('id' => $id, 'description' => $description);
+    }
+
+    public function create($description) {
         $sql = 'INSERT INTO todo (description) VALUES (?)';
         $stmt = $this->db->prepare($sql);
 
-        // NOTE: First param of function call defines types
-        // https://www.php.net/mysqli-stmt.bind-param
         $stmt->bind_param('s', $description);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
+        if($stmt->execute()) {
+            $result = $this->fetch($this->db->lastInsertId());
+        } else {
+            $result = Array('id' => null, 'description' => null);
+        }
 
         return $result;
     }
