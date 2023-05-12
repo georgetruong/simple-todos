@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <script src="js/jquery-3.7.0.min.js"></script> 
+    </head>
+    <body>
+        <div class="todo-form">
+            <h2>Add a Todo</h2>
+            <form id="todoForm" action="ajaxCreateTodo.php" method="POST">
+                <input type="text" name="todoDescription" placeholder="Enter todo description" required>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <script>
+            $(document).ready(function(){
+                /**
+                $('#todoForm').submit(function(e){
+                    e.preventDefault();
+                    alert('submitted');
+                });
+                **/
+            });
+        </script>
+    </body>
+</html>
