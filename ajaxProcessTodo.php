@@ -2,12 +2,16 @@
 
 require_once('Classes/Todo.php');
 
-header('Content-Type: application/json');
+switch($_SERVER['REQUEST_METHOD']) {
+    case "GET":
+        break;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $Todo = new Todo;
-    $result = $Todo->create($_POST['todoDescription']);
-
-    $jsonString = json_encode($result);
-    echo $jsonString;
+    case "POST":
+        $Todo = new Todo;
+        $result = $Todo->create($_POST['todoDescription']);
+        break;
 }
+
+header('Content-Type: application/json');
+$jsonString = json_encode($result);
+echo $jsonString;

@@ -1,4 +1,9 @@
 <?php
+
+// A simple wrapper for mysqli
+
+require_once("MySQLConfig.php");
+
 class MySQLConnection {
     private $servername;
     private $username;
@@ -7,11 +12,10 @@ class MySQLConnection {
     private $conn;
 
     public function __construct() {
-        // TODO: Move connection variables to ENV or other config
-        $this->servername = 'localhost';
-        $this->username = 'root';
-        $this->password = '';
-        $this->database = 'todos';
+        $this->servername   = MYSQL_SERVERNAME;
+        $this->username     = MYSQL_USERNAME;
+        $this->password     = MYSQL_PASSWORD;
+        $this->database     = MYSQL_DATABASE;
         $this->connect();
     }
 
