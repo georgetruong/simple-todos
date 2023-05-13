@@ -2,12 +2,18 @@
 
 require_once('Classes/Todo.php');
 
+$Todo = new Todo;
 switch($_SERVER['REQUEST_METHOD']) {
     case "GET":
+        if (isset($_GET['id'])) {
+            $result = $Todo->fetch($_GET['id']);
+        } else {
+            // TODO: fetch all
+            $result = $Todo->fetchAll();
+        }
         break;
 
     case "POST":
-        $Todo = new Todo;
         $result = $Todo->create($_POST['todoDescription']);
         break;
 }

@@ -25,6 +25,13 @@ class Todo {
         return Array('id' => $id, 'description' => $description);
     }
 
+    public function fetchAll() {
+        $sql = "SELECT id, description FROM todo";
+        $result = $this->db->query($sql);
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function create($description) {
         $sql = 'INSERT INTO todo (description) VALUES (?)';
         $stmt = $this->db->prepare($sql);
