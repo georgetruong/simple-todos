@@ -1,5 +1,9 @@
 function todoListItemHTML(todo) {
-    return "<li>" + todo.description + "</li>";
+    return  "<li id=todoLi" + todo.id + ">" + 
+                todo.description + 
+                '<input id="deleteTodoBtn" type="button" value="delete" ' +
+                    'onclick="deleteTodo(' + todo.id + ')"/>' + 
+            "</li>";
 }
 
 function submitTodoForm(e) {
@@ -12,9 +16,9 @@ function submitTodoForm(e) {
         success: function(response) {
             console.log(response);
             if (response.id != -1) {
-                $('ul#todo-list').append(
-                    todoListItemHTML(response)
-                );
+                var newLiItem = $(todoListItemHTML(response)).hide();
+                $('ul#todo-list').append(newLiItem);
+                newLiItem.fadeIn("slow");
             } else {
                 alert('Unable to create todo. Please try again.');
             }
@@ -44,6 +48,25 @@ function fetchAllTodos() {
             console.error(xhr.responseText);
         }
     }); 
+}
+
+function deleteTodo(todoId) {
+    $.ajax({
+        url: "ajaxProcessTodo.php",
+        type: "DELETE",
+        data: JSON.stringify({ id: todoId }),
+        contentType: "application/json",
+        success: function(response) {
+            $('li#todoLi'+response.id).fadeOut("slow", function(){
+                $(this).remove();
+            });
+        },
+        error: function(xhr, status, error) {
+            alert('Unable to delete todo item. Please try again.');
+            console.error(xhr.responseText);
+        }
+    }); 
+
 }
 
 $(document).ready(function(){

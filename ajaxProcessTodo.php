@@ -8,13 +8,18 @@ switch($_SERVER['REQUEST_METHOD']) {
         if (isset($_GET['id'])) {
             $result = $Todo->fetch($_GET['id']);
         } else {
-            // TODO: fetch all
             $result = $Todo->fetchAll();
         }
         break;
 
     case "POST":
         $result = $Todo->create($_POST['todoDescription']);
+        break;
+
+    case "DELETE":
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+        $result = $Todo->delete($data['id']);
         break;
 }
 

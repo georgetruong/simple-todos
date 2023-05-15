@@ -46,4 +46,20 @@ class Todo {
         return $result;
     }
 
+    public function delete($todoId) {
+        if (!isset($todoId)) return Array('id' => null);
+
+        $sql = "DELETE FROM todo WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bind_param('i', $todoId);
+        if ($stmt->execute()) {
+            $result = Array('id' => $todoId);
+        } else {
+            $result = Array('id' => null);
+        }
+
+        return $result;
+    }
+
 }
