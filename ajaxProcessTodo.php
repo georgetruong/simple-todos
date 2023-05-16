@@ -21,6 +21,12 @@ switch($_SERVER['REQUEST_METHOD']) {
         $data = json_decode($input, true);
         $result = $Todo->delete($data['id']);
         break;
+
+    case "UPDATE":
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+        $result = $Todo->update($data['id'], $data['description']);
+        break;
 }
 
 header('Content-Type: application/json');

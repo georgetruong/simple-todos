@@ -51,8 +51,8 @@ class Todo {
 
         $sql = "DELETE FROM todo WHERE id = ?";
         $stmt = $this->db->prepare($sql);
-
         $stmt->bind_param('i', $todoId);
+
         if ($stmt->execute()) {
             $result = Array('id' => $todoId);
         } else {
@@ -62,4 +62,15 @@ class Todo {
         return $result;
     }
 
+    public function update($todoId, $todoDescription) {
+        if (!isset($todoId)) return Array('id' => null);
+        if (!isset($todoDescription)) return Array('id' => null);
+
+        $sql = "UPDATE todo SET description = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('si', $todoDescription, $todoId);
+        $stmt->execute();
+
+        return $this->fetch($todoId);
+    }
 }
